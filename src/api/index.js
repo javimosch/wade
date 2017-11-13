@@ -1,4 +1,5 @@
 import {
+	description,
 	version
 } from '../../package.json';
 import {
@@ -6,6 +7,7 @@ import {
 } from 'express';
 import facets from './facets';
 import path from 'path';
+import compareVersion from 'compare-versions';
 export default ({
 	config,
 	db
@@ -19,20 +21,23 @@ export default ({
 	}));
 
 	api.get('/download', (req, res) => {
-
 		var file = path.join(process.cwd(), "releases/slti-" + version+'-mac.zip');
 		res.download(file);
 	});
 
-	api.get('/', (req, res) => {
+	api.get('/update/:version', (req, res) => {
 
 		var IP = process.env.IP || "http://localhost:8081"
 
+		if(compareVersion(req.params.version,version)!==-1){
+			return res.status(404).send();
+		}
+
 		let rta = {
 			"url": IP + "/api/download",
-			"name": "1.0.5",
+			"name": version,
 			"notes": "",
-			"pub_date": "2017-11-13T16:13:58.000Z"
+			"pub_date": description
 		};
 
 		res.json(rta);
