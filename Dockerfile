@@ -7,11 +7,12 @@ LABEL authors="Zouhir Chahoud <zouhir@zouhir.org>"
 RUN apk add --update nodejs bash git
 
 # Install app dependencies
-COPY package.json /www/package.json
-RUN cd /www; npm install
+RUN mkdir /vendor
+COPY package.json /vendor/package.json
+RUN cd /vendor; npm install
 
 # Copy app source
-COPY . /www
+VOLUME ['/www']
 
 # Set work directory to /www
 WORKDIR /www
@@ -22,5 +23,4 @@ ENV PORT 8080
 # expose the port to outside world
 EXPOSE  8080
 
-# start command as per package.json
-CMD ["npm", "start"]
+ENTRYPOINT ["npm","install"]
