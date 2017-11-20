@@ -14,3 +14,13 @@ It will allow you to build your backend api directly in the cloud.
 - Backend APIs code generation.
 - Client API library generation (ES5)
 
+
+## Current Status
+
+- Working in progress, nothing to show yet!
+
+### Participation
+
+- Just open an issue or write to arancibiajav@gmail.com
+
+
