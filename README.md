@@ -1,6 +1,16 @@
-# STEPS
+# WHAT IS WADE
 
-sudo docker build . -t javimosch/electron-releases
-sudo docker stop ers
-sudo docker rm ers
-sudo docker run --name ers -d -e IP=http://149.202.161.204:8009 -p 8009:8080 -v "$(pwd):/www" javimosch/electron-releases npm start
+Wade is a web platform to help startups CTOs to bootstrap their projects quickly.
+
+Powered by Javacript technologies: Vue.js, NPM5, Webpack3, NodeJS 8+, ExpressJS, MongoDB and others.
+
+It will allow you to build your backend api directly in the cloud.
+
+## Main Features
+
+- Development in the cloud (coding)
+- Bundling in the cloud (compiling)
+- Deploy to SFTP, FTP, GIT
+- Backend APIs code generation.
+- Client API library generation (ES5)
+
