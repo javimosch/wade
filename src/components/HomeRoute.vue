@@ -1,30 +1,39 @@
 <template>
-  <div id="app">
-    
-    <h1>{{ msg }}</h1>
-    
-    
-    <div class="container main-container">
-  <div class="row">
-    <div class="col-sm col-lg-8">
-      <Ace-editor></Ace-editor>
-    </div>
-    <div class="col-sm col-lg-4">
-     <Json-editor></Json-editor>
+<div id="app">
+  <div class="container main-container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="jumbotron">
+          <h1 class="display-3">Hello, world!</h1>
+          <p class="lead">Coding a Web platform has never been so simple (for experienced developers).</p>
+          <hr class="my-4">
+          <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+          </p>
+        </div>
+        
+        <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-3">WADE</h1>
+    <p class="lead">Web Applications Development Enviroment</p>
+  </div>
+</div>
+
+
+      </div>
     </div>
   </div>
 </div>
-  </div>
 </template>
 
 <script>
-import Login from './Login.vue'
+
 import JsonEditor from './JsonEditor.vue';
 import AceEditor from './AceEditor.vue';
-console.log('Login',Login)
+
 
 export default {
-  name: 'app',
+  name: 'home',
   methods:{
    
   },
@@ -38,7 +47,7 @@ export default {
     }
   },
   components:{
-    Login:Login,
+
     JsonEditor:JsonEditor,
     AceEditor:AceEditor
   }
@@ -46,9 +55,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-container{
-  outline: 2px dashed black;
-}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

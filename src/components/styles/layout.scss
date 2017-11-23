@@ -1,0 +1,22 @@
+.main-container{
+  outline: 1px dashed rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    min-height: 600px;
+}
+
+.list-group,.form-control{
+    margin-top:5px;
+}
+
+/*MOVE*/
+
+.vue-input-tag-wrapper span:hover{
+    cursor:pointer;
+}
+.vue-input-tag-wrapper .input-tag {
+    background-color: lightgrey!important;
+    border: 1px solid lightgray!important;
+    color: black!important;
+}

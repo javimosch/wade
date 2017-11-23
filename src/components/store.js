@@ -1,71 +1,78 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 import localforage from 'localforage';
-Vue.use(Vuex)
-// root state object.
-// each Vuex instance is just a single state tree.
-const state = {
-  count: 0,
-  selectedFile:'',
-  content:''
-}
+import {getParameterByName,fileContentCacheUniqueId} from 'lib/common';
+Vue.use(Vuex);
 
-// mutations are operations that actually mutates the state.
-// each mutation handler gets the entire state tree as the
-// first argument, followed by additional payload arguments.
-// mutations must be synchronous and can be recorded by plugins
-// for debugging purposes.
-const mutations = {
-  saveFile (state,payload) {
-    localforage.setItem('fileContent_'+payload.fileName,payload.content);
+const state = {
+  user:{
+    isLogged:false
   },
-  setContent (state,content) {
-    state.content = content;
+  router:{
+    redirect:'',
+    current:''
   },
-  selectFile (state, file) {
-    state.selectedFile = file;
-  },
+  files:[]
 };
 
-// actions are functions that cause side effects and can involve
-// asynchronous operations.
-const actions = {
-  openFile:({commit},fileName)=>{
-    (async()=>{
-      let content = await localforage.getItem('fileContent_'+fileName);
-      if(content){
-        commit('setContent',content);
-      }else{
-        setTimeout(function(){
-          commit('setContent','//new-content');
-        });
-      }
-    })().catch(err=>console.error);
+
+const mutations = {
+  markUserAsLogged (state) {
+    state.user.isLogged=true;
+    state.router.redirect = getParameterByName('redirect');
+    console.log('User is logged');
   },
-  increment: ({ commit }) => commit('increment'),
-  decrement: ({ commit }) => commit('decrement'),
-  incrementIfOdd ({ commit, state }) {
-    if ((state.count + 1) % 2 === 0) {
-      commit('increment')
-    }
+  currentRouteChange(state,current){
+    state.router.current=current;
+  }
+};
+
+
+const actions = {
+  async loadFile({commit,state},item){
+    return await localforage.getItem(fileContentCacheUniqueId(item));
+  },
+  async saveFile ({commit},{item}) {
+    if(!item) throw new Error('file required');
+    if(!item.space) throw new Error('file.space required');
+    if(!item.name) throw new Error('file.name required');
+    let cache = await localforage.getItem(fileContentCacheUniqueId(item));
+    item = Object.assign(cache,item);
+    await localforage.setItem(fileContentCacheUniqueId(item),item);
+    return;
+  },
+  openFile:({commit},fileObject)=>{
+    (async()=>{
+      if(!fileObject) throw new Error('fileObject requried');
+      let contents = await localforage.getItem(fileContentCacheUniqueId(fileObject));
+      if(contents){
+        fileObject.contents = contents;
+        commit('selectFile',fileObject);
+      }else{
+        //remote data
+        setTimeout(function(){
+          commit('setContent',fileObject);
+        },1000);
+      }
+    })().catch(console.error);
   },
   incrementAsync ({ commit }) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        commit('increment')
-        resolve()
-      }, 1000)
-    })
+        commit('increment');
+        resolve();
+      }, 1000);
+    });
   }
-}
+};
 
-// getters are functions
+
 const getters = {
-  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
-}
+  userIsLogged: state=> state.user.isLogged,
+  routerRedirect: state=>state.router.redirect,
+  currentRoute:state=>state.router.current
+};
 
-// A Vuex instance is created by combining the state, mutations, actions,
-// and getters.
 export default new Vuex.Store({
   state,
   getters,

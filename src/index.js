@@ -1,7 +1,17 @@
-require('dotenv').config({
+import * as dotenv from 'dotenv';
+dotenv.config({
   silent: true
 });
-const console = require('tracer').colorConsole();
+import * as tracer from 'tracer';
+const console = tracer.colorConsole();
+
+if(!process.env.FIREBASE_CONFIG_FILE){
+	console.error('Firebase required');
+	process.exit(1);
+}
+console.log("process.env.FIREBASE_CONFIG_FILE",process.env.FIREBASE_CONFIG_FILE);
+
+
 //console.log(process.env)
 
 import http from 'http';

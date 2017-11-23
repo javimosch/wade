@@ -68,6 +68,7 @@ module.exports = {
     // > Module Folders (packages and extensions)
     resolve: {
         alias: {
+            "lib":path.join(process.cwd(),'src/lib'),
             vue$: "vue/dist/vue.esm.js",
             "jsoneditor.css": path.join(__dirname, '/node_modules/jsoneditor/dist/jsoneditor.css'),
             "jsoneditor.svg": path.join(__dirname, '/node_modules/jsoneditor/dist/img/jsoneditor-icons.svg'),
