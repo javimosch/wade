@@ -25,8 +25,8 @@
       "no-unused-vars": 1
     }
   },
-  "repository": "developit/express-es6-rest-api",
-  "author": "Jason Miller <jason@developit.ca>",
+  "repository": "/javimosch/wade",
+  "author": "Javier Leandro Arancibia <arancibiajav@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "async-script-promise": "^1.0.0",
