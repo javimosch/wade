@@ -1,6 +1,15 @@
 <template>
-     <div>
+     <div class="container-fluid">
+         <div class="container">
+             <div class="row">
+                 <div class="col-sm-12">
+                     <h1 class="text-center"><span v-show="fileNamespace" class="namespace-text" v-html="fileNamespace"></span><span v-html="file.name">station-block</span></h1>
+                 </div>
+             </div>
+         </div>
+        <div class="row">
         <pre name="code" id="editor" style="border: none;"></pre>
+        </div>
      </div>
 </template>
 <script>
@@ -47,6 +56,9 @@
             saveFile: 'saveFile'
         })),
         computed: {
+            fileNamespace:function(){
+              return this.file.space?this.file.space+'.':'';
+            },
             fileContents: function() {
                 return this.file.contents;
             }

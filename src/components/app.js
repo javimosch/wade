@@ -48,7 +48,7 @@ socket.on('connect', () => {
 const routes = [
   { name: "root", path: '/', component: HomeRoute },
   { name: 'backend', path: '/backend', component: BackendRoute, meta: { auth: true } },
-  { name: 'functions', path: '/functions', component: FunctionsRoute, meta: { auth: true } },
+  { name: 'library', path: '/library', component: FunctionsRoute, meta: { auth: true } },
   { name: 'blankEditor', path: '/editor', component: FileEditor, meta: { auth: true } },
   { name: 'editor', path: '/editor/:space/:name', component: FileEditor, meta: { auth: true } },
   { name: "login", path: '/login', component: LoginRoute }

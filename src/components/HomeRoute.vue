@@ -5,7 +5,7 @@
       <div class="col-sm-12">
         <div class="jumbotron">
           <h1 class="display-3">Hello, world!</h1>
-          <p class="lead">Coding a Web platform has never been so simple (for experienced developers).</p>
+          <p class="lead">Coding a Web platform has never been so simple.</p>
           <hr class="my-4">
           <p class="lead">
             <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
@@ -14,11 +14,19 @@
         
         <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-3">WADE</h1>
-    <p class="lead">Web Applications Development Enviroment</p>
+    <h1 class="display-3">WEDEV</h1>
+    <p class="lead">Web Applications Development Enviroment for alternative projects.</p>
   </div>
 </div>
 
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-3">What?</h1>
+    <hr class="my-4">
+    <p>Imaginate utilizar las ultimas tecnologias como Webpack, NodeJS, MongoDB o VueJS y realizar todo en la nube, en simples pasos.</p>
+  </div>
+</div>
 
       </div>
     </div>
