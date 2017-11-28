@@ -6,8 +6,8 @@
         
         <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1 class="display-3">Backend</h1>
-        <p>You will be able to create and edit NodeJS/ExpressJS API Routes with database support (MongoDB/Mongoose) and custom server side modules (NPM Packages).</p>
+        <h1 class="display-3">Time for testing</h1>
+        <p>You will be able to enable realtime compilation for your projects and to debug errors.</p>
     </div>
 </div>
         

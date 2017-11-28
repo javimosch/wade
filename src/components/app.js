@@ -11,6 +11,8 @@ import HomeRoute from './HomeRoute.vue';
 import LoginRoute from './LoginRoute.vue';
 import FunctionsRoute from './FunctionsRoute.vue';
 import FileEditor from './FileEditor.vue';
+import VueComponentEditor from './VueComponentEditor.vue';
+import TestRoute from './TestRoute.vue';
 
 
 import Header from './Header.vue';
@@ -51,6 +53,8 @@ const routes = [
   { name: 'library', path: '/library', component: FunctionsRoute, meta: { auth: true } },
   { name: 'blankEditor', path: '/editor', component: FileEditor, meta: { auth: true } },
   { name: 'editor', path: '/editor/:space/:name', component: FileEditor, meta: { auth: true } },
+  { name: 'components', path: '/components', component: VueComponentEditor, meta: { auth: true } },
+  { name: 'test', path: '/test', component: TestRoute, meta: { auth: true } },
   { name: "login", path: '/login', component: LoginRoute }
 ];
 const router = new VueRouter({
