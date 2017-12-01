@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config({
-  silent: true
+	silent: true
 });
 import {
 	description,
@@ -18,7 +18,7 @@ import { jsonParser } from '../middleware';
 import * as lib from '../lib';
 import mongoose from 'mongoose';
 import * as admin from "firebase-admin";
-var serviceAccount = require(process.cwd() + "/"+ process.env.FIREBASE_CONFIG_FILE);
+var serviceAccount = require(process.cwd() + "/" + process.env.FIREBASE_CONFIG_FILE);
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
@@ -42,30 +42,44 @@ export default ({
 		var file = path.join(process.cwd(), "releases/slti-" + version + '-mac.zip');
 		res.download(file);
 	});
+	
+	api.get('/v1/me/session/id', (req, res) => {
+		res.status(200).send(req.sessionID+" "+req.session.user_id);
+	});
+
+	api.get('/v1/me/session', (req, res) => {
+		
+		res.status(200).json({ user: req.user ? req.user : "There is not user :( " });
+	});
 
 	api.post("/v1/verify-login", (req, res) => {
 		let idToken = req.body.token;
-		admin.auth().verifyIdToken(idToken)
-			.then(function(decodedToken) {
-				var uid = decodedToken.uid;
-				res.status(200).json({ ok: true, uid: uid });
-			}).catch(function(error) {
-				res.status(401).json({ ok: false, error: error });
-			});
-
-
+		(async() => {
+			let user = req.user || await lib.security.parseUserFromToken(idToken);
+			if(user){
+				req.session.user_id = user._id;
+				req.session.refreshToken = idToken;
+				req.session.save(()=>{
+					return res.status(200).json({ok:true,user:user});	
+				});
+			}else{
+				throw new Error('user not verified');	
+			}
+		})().catch(err => {
+			console.error(err);
+			return res.status(200).json({ok:true});
+		});
 	});
 
 
 	let User = mongoose.model('user');
-	app.post('/api/v1/login', jsonParser, lib.security.isAuthenticated, (req, res) => {
+	app.post('/api/v1/login', jsonParser, lib.security.authenticateUser(), (req, res) => {
 		User.update({ "_id": req.user._id }, { "$set": { connected: true } },
 			function(err, data) {
 				if (err) {
 					console.error(err);
 				}
 
-				req.session.save();
 				res.status(200).json({
 					id: req.user._id,
 					firstname: req.user.firstname || '',

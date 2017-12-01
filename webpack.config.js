@@ -4,6 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const webpack = require('webpack');
+const VirtualModulePlugin = require('virtual-module-webpack-plugin');
 
 const DEBUG = process.env.NODE_ENV !== 'production';
 console.log('DEBUG?', DEBUG);
@@ -35,14 +36,17 @@ module.exports = {
         publicPath: "/",
         hot: true
     },
-   // entry: './src/index.js',
+    // entry: './src/index.js',
     // > JS Input / Output
     entry: [
         'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
         SRC_FILE_JS_APP
     ],
     plugins: [
-      
+        new VirtualModulePlugin({
+            moduleName: 'fromMemory/test.json',
+            contents: JSON.stringify({ greeting: 'Hello!' })
+        }),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
@@ -68,7 +72,7 @@ module.exports = {
     // > Module Folders (packages and extensions)
     resolve: {
         alias: {
-            "lib":path.join(process.cwd(),'src/lib'),
+            "lib": path.join(process.cwd(), 'src/lib'),
             vue$: "vue/dist/vue.esm.js",
             "jsoneditor.css": path.join(__dirname, '/node_modules/jsoneditor/dist/jsoneditor.css'),
             "jsoneditor.svg": path.join(__dirname, '/node_modules/jsoneditor/dist/img/jsoneditor-icons.svg'),
@@ -107,7 +111,7 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                         'js': 'babel-loader',
+                        'js': 'babel-loader',
                         'scss': ExtractTextPlugin.extract({
                             fallback: 'vue-style-loader',
                             use: ['css-loader', 'sass-loader']

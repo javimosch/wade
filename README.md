@@ -24,3 +24,11 @@ It will allow you to build your backend api directly in the cloud.
 - Just open an issue or write to arancibiajav@gmail.com
 
 
+
+### Technologies
+
+- https://github.com/chrisvfritz/prerender-spa-plugin/blob/master/examples/vue2-webpack-router/webpack.config.js
+- https://www.npmjs.com/package/virtual-module-webpack-plugin
+- http://tonycrowe.com/2016/07/08/Webpack-Output-Straight-Into-Memory/
+
+

@@ -13,23 +13,30 @@ import FunctionsRoute from './FunctionsRoute.vue';
 import FileEditor from './FileEditor.vue';
 import VueComponentEditor from './VueComponentEditor.vue';
 import TestRoute from './TestRoute.vue';
+import ModuleEditor from './ModuleEditor.vue';
 
 
 import Header from './Header.vue';
 import store from './store';
 
-import io from 'socket.io-client';
-const socket = io();
+
 
 import localforage from 'localforage';
 
 //NOTIFICAITONS
 import VueNotifications from 'vue-notifications'
-import iziToast from 'izitoast'// https://github.com/dolce/iziToast
+import iziToast from 'izitoast' // https://github.com/dolce/iziToast
 import 'izitoast/dist/css/iziToast.min.css'
-function toast ({title, message, type, timeout, cb}) {
+
+
+import json from 'fromMemory/test.json';
+
+console.log('JSON', json);
+
+
+function toast({ title, message, type, timeout, cb }) {
   if (type === VueNotifications.types.warn) type = 'warning'
-  return iziToast[type]({title, message, timeout})
+  return iziToast[type]({ title, message, timeout })
 }
 const options = {
   success: toast,
@@ -40,12 +47,7 @@ const options = {
 Vue.use(VueNotifications, options)
 //-----
 
-socket.on('connect', () => {
-  console.log(socket.id); // 'G5p5...'
-  socket.on('news', (m) => {
-    console.log('news:', m);
-  });
-});
+
 
 const routes = [
   { name: "root", path: '/', component: HomeRoute },
@@ -55,6 +57,7 @@ const routes = [
   { name: 'editor', path: '/editor/:space/:name', component: FileEditor, meta: { auth: true } },
   { name: 'components', path: '/components', component: VueComponentEditor, meta: { auth: true } },
   { name: 'test', path: '/test', component: TestRoute, meta: { auth: true } },
+  { name: 'modules', path: '/modules', component: ModuleEditor, meta: { auth: true } },
   { name: "login", path: '/login', component: LoginRoute }
 ];
 const router = new VueRouter({
@@ -79,7 +82,7 @@ router.beforeEach((to, from, next) => {
   }
 });
 router.afterEach((to, from) => {
-  store.commit('currentRouteChange',to);
+  store.commit('currentRouteChange', to);
 });
 const app = new Vue({
   store,
@@ -87,12 +90,14 @@ const app = new Vue({
   components: {
     AppHeader: Header
   },
-  mounted:()=>{
-    setUserLoggedState();
+  mounted: () => {
+    //setUserLoggedState();
+    
   }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+  await store.dispatch('ensureSession');
   app.$mount('#app');
 });
 

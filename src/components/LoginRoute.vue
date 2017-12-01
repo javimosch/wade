@@ -24,7 +24,7 @@
     /*global firebase*/
 
     import fetch from 'unfetch';
-    import { mapMutations } from 'vuex';
+    import { mapActions } from 'vuex';
 
 
     export default {
@@ -39,15 +39,21 @@
         methods: methods()
     };
 
+    function onLoggedChange(isLogged) {
+        const vm = this;
+        if (isLogged) {
+            vm.$router.push({
+                path: vm.$store.getters.routerRedirect
+            });
+        }
+    }
+
     function mounted() {
         const vm = this;
         vm.$store.watch(() => this.$store.getters.userIsLogged, isLogged => {
-            if (isLogged) {
-                vm.$router.push({
-                    path: vm.$store.getters.routerRedirect
-                });
-            }
+            onLoggedChange.apply(vm, [isLogged]);
         });
+        onLoggedChange.apply(vm, [vm.$store.getters.userIsLogged]);
     }
 
     function methods() {
@@ -64,7 +70,7 @@
                         console.info(user);
 
 
-                        firebase.auth().currentUser.getToken( /* forceRefresh */ true).then(function(idToken) {
+                        firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(function(idToken) {
                             var options = {
                                 method: 'POST',
                                 headers: {
@@ -79,7 +85,7 @@
                                 .then(function(res) {
                                     // POST succeeded...
                                     res.json().then(console.log);
-                                    self.markUserAsLogged();
+                                    self.connectSocket();
                                 })
                                 .catch(function(err) {
                                     // POST failed...
@@ -106,8 +112,8 @@
                 });
 
             }
-        }, mapMutations([
-            'markUserAsLogged',
+        }, mapActions([
+            'connectSocket',
         ]));
     }
 </script>
